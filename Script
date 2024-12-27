@@ -1,0 +1,35 @@
+local aTimer = nil
+local aTimerInterval = 1000
+local aTimerTicks = 0
+local aTimerTickMax = 0
+
+local function aTimer_tick(timer)
+    if aTimerTickMax > 0 and aTimerTicks >= aTimerTickMax then
+        timer.destroy()
+    end
+    aTimerTicks = aTimerTicks + 1
+
+    openProcess("RecRoom.exe")
+
+    if b == 0 or b == 255 then
+        openProcess("RecRoom.exe")
+    end
+end
+
+function AOBRep(search, change)
+    local aob = AOBScan(search)
+    if aob then
+        for i = 0, aob.Count - 1 do
+            autoAssemble(aob[i] .. ':\ndb ' .. change)
+        end
+        aob.Destroy()
+    end
+end
+
+local searchA = '33 33 D3 3F 00 00 00 00 00 00 00 00 A6 A5 25 3F'
+local replaceA = '80 4F C3 47 62 C3 E4 F5 35 53 3E 7F 22 5F 57 E3'
+AOBRep(searchA, replaceA)
+
+local searchB = '33 33 D3 3F 00 00 00 00 00 00 00 00 AB AA 2A 3F'
+local replaceB = '80 4F C3 47 62 C3 E4 F5 35 53 3E 7F 22 5F 57 E3'
+AOBRep(searchB, replaceB)
